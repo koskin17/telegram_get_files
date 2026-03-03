@@ -26,9 +26,9 @@ async def get_files_from_telegram(chat_link, topic_id=None):
         return files
 
 async def main():
-    chat_link = "https://t.me/+CXM7VjXkpeMzMmEy"
+    chat_link = "https://t.me/+CXM7VjXkpeMzMmEy"    # My group
 
-    topic_id = 632
+    topic_id = 632  # Topic with courses
 
     files = await get_files_from_telegram(chat_link, topic_id)
 
