@@ -39,10 +39,5 @@ async def main():
     print("Files have been saved to files.txt")
 
 
-
-
-    print(f"API ID: {api_id}")
-    print(f"API Hash: {api_hash}")
-
 if __name__ == "__main__":
     asyncio.run(main())
