@@ -1,6 +1,9 @@
 # Local history
 .history
 
+# Temp .png
+*.png
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

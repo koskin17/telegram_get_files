@@ -3,21 +3,37 @@ import asyncio
 from telethon import TelegramClient
 from telethon.errors import SessionPasswordNeededError
 import qrcode
+from getpass import getpass
+from telethon.errors import SessionPasswordNeededError
 
 api_id = Config.API_ID
 api_hash = Config.API_HASH
 
 async def authorize_with_qr():
     client = TelegramClient("session", api_id, api_hash)
-    await client.connect()
 
     try:
-        if not await client.is_user_authorized():
-            qr = await client.qr_login()
+        await client.connect()
 
-            qrcode.make(qr.url).save("telegram_login_qr.png")
-            print("Open telegram_login_qr.png and scan QR code with you Telegram app to authorize.")
-            await qr.wait()
+        if await client.is_user_authorized():
+            print("Already authorized!")
+            return
+
+        while True:
+            qr = await client.qr_login()
+            qrcode.make(qr.url).save("telegrambotlogin.png")
+            print("Open telegrambotlogin.png and scan the QR code with your Telegram app.")
+
+            try:
+                await qr.wait()
+                print("Authorization successful!")
+            except asyncio.TimeoutError:
+                print("QR-code expired or invalid. Please try again.")
+                continue
+            except SessionPasswordNeededError:
+                password = getpass("Two-step verification is enabled. Please enter your password: ")
+                await client.sign_in(password=password)
+                print("Authorization successful!")
     finally:
         await client.disconnect()
 
