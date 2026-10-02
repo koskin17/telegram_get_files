@@ -4,7 +4,6 @@ from telethon import TelegramClient
 from telethon.errors import SessionPasswordNeededError
 import qrcode
 from getpass import getpass
-from telethon.errors import SessionPasswordNeededError
 
 api_id = Config.API_ID
 api_hash = Config.API_HASH
@@ -34,6 +33,7 @@ async def authorize_with_qr():
                 password = getpass("Two-step verification is enabled. Please enter your password: ")
                 await client.sign_in(password=password)
                 print("Authorization successful!")
+            break
     finally:
         await client.disconnect()
 
@@ -41,8 +41,8 @@ async def get_files_from_telegram(chat_link, topic_id=None):
     async with TelegramClient("session", api_id, api_hash) as Client:
 
         entity = await Client.get_entity(chat_link)
-        print(f"\nПодключились к: {entity.title}\n")
-        print("Собираем файлы...\n")
+        print(f"Connected to: {entity.title}\n")
+        print("Receive files...\n")
 
         files = []
 
